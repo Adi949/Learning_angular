@@ -1,0 +1,69 @@
+<div>
+  <div *ngFor="let user of users$ | async">
+    {{ user }}
+    <button (click)="deleteUser(user)">Delete</button>
+  </div>
+  <input [(ngModel)]="newUser" placeholder="Enter new user" />
+  <button (click)="addUser()">Add</button>
+
+  <h1 [ngClass]="heading ? 'red' : 'blue'">{{ title }}</h1>
+  <button (click)="isLoggedIn = !isLoggedIn">
+    {{ isLoggedIn ? "logout" : "login" }}
+  </button>
+
+  <ng-container *ngIf="isLoggedIn; then loggedIn; else loggedOut">
+  </ng-container>
+
+  <ng-template #loggedIn>
+    <div>
+      Welcome back, friend.
+
+      <div style="display: flex">
+        <div>
+          <ul>
+            <li
+              *ngFor="let course of courses"
+              [ngClass]="{
+                green: course.level == 'Beginner',
+                red: course.level == 'Advanced',
+                yellow: course.level == 'Intermediate',
+                sizeup: true
+              }"
+            >
+              {{ course.name | lowercase }}
+            </li>
+          </ul>
+        </div>
+        <div>
+          <!-- two way binding -->
+          <!-- <span>Enter a value </span>
+          <input [(ngModel)]="CopyText" />
+          <strong>{{ CopyText | uppercase }}</strong> -->
+          <!-- <input type="text " value="{{ CopyText }}" /> -->
+
+          <button type="button" class="btn btn-primary" (click)="show()">
+            Add new data
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <ul>
+          <li *ngFor="let item of keyValue | keyvalue">
+            {{ item.key }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <app-popup
+      *ngIf="popup"
+      [popupStatus]="popup"
+      (dataEvent)="receiveData($event)"
+    ></app-popup>
+  </ng-template>
+
+  <ng-template #loggedOut>
+    <div>Please friend, login.</div>
+  </ng-template>
+</div>
